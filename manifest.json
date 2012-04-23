@@ -1,0 +1,10 @@
+{
+    "name": "XKCD-inspired timeout",
+    "version": "0.1",
+    "description": "Because I need to wait for my ape brain to kick in.",
+    "permissions": [
+        "tabs",
+        "notifications"
+    ],
+    "background_page": "background.html"
+}

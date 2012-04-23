@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<script>
+		var count = 15;
+		
+		var countdownElem = null;
+		
+		function updateCountdown() {
+			countdownElem.innerHTML = count.toString();
+		}
+		
+		function init() {
+			countdownElem = document.getElementById('countdown');
+				
+			updateCountdown();
+			
+			setInterval(function() {
+				if (count <= 0)
+					chrome.extension.getBackgroundPage().redir();
+				else
+					count--;
+				
+				updateCountdown();
+			},1000);
+		}
+		
+		function panic() {
+			count--;
+			updateCountdown();
+		}
+		</script>
+	</head>
+	<body onload="init();">
+		<div>
+			Wait for it...
+		</div>
+		
+		<h1 id="countdown"></h1>
+		<a href="#" onclick="panic();">!!!</a>
+		<!-- <div>
+			<a href="#" onclick="chrome.extension.getBackgroundPage().redir();">Okay!</a>
+		</div> -->
+	</body>
+	
+</html>
