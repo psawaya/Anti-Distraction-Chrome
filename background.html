@@ -24,7 +24,7 @@ function startNotifsDisabledTimer() {
 		notifsDisabledMinutesRemaining--;
 		if (notifsDisabledMinutesRemaining == 0)
 			clearInterval(timer);
-	}, 1000);
+	}, 60*1000);
 }
 
 function getNotifData() {
