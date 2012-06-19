@@ -12,24 +12,21 @@
 			countdownElem.innerHTML = count.toString();
 		}
 		
+		function panic() {
+			if (count <= 0)
+				chrome.extension.getBackgroundPage().redir(notifData);
+			else
+				count--;
+				
+			updateCountdown();			
+		}
+		
 		function init() {
 			countdownElem = document.getElementById('countdown');
 				
 			updateCountdown();
 			
-			setInterval(function() {
-				if (count <= 0)
-					chrome.extension.getBackgroundPage().redir(notifData);
-				else
-					count--;
-				
-				updateCountdown();
-			},1000);
-		}
-		
-		function panic() {
-			count--;
-			updateCountdown();
+			setInterval(panic,1000);
 		}
 		</script>
 	</head>

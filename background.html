@@ -29,8 +29,6 @@ function getNotifData() {
 }
 
 function redir(data) {	
-	
-	console.log(data);
 	chrome.tabs.get(data.tab_id,function(tab) {
 		tab.url = data.url;
 		
