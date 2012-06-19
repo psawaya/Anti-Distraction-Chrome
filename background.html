@@ -17,11 +17,15 @@ var notifs = {};
 var lastNotifID = 0;
 
 function getNotifData() {
-	return {
-		"notif_id": lastNotifID++,
+	var notifData = {
+		"notif_id": lastNotifID,
 		"url": origURL,
-		"tab_id": lastTabId
+		"tab_id": lastTabId,
+		"notif_obj": lastNotification
 	};
+	notifs[lastNotifID] = notifData;
+	lastNotifID++;
+	return notifData;
 }
 
 function redir(data) {	
@@ -34,15 +38,13 @@ function redir(data) {
 			url:data.url
 		});
 		
-		notifs[data.notif_id].cancel();
+		killNotif(notifs[data.notif_id].notif_obj);
 		delete notifs[data.notif_id];
-		lastNotificationTimeout = null;
-		lastNotification = null;
 	});
 }
 
-function killCurrentNotif() {
-	lastNotification.cancel();
+function killNotif(notif) {
+	notif.cancel();
 	lastNotificationTimeout = null;
 	lastNotification = null;
 }
@@ -78,7 +80,7 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo) {
 			lastNotification = webkitNotifications.createHTMLNotification('notif.html');
 			lastNotification.show();
 			
-			notifs[lastNotifID] = lastNotification;
+			// notifs[lastNotifID] = lastNotification;
 			
 			tabsBothered.push(tabId);
 		}
@@ -87,7 +89,11 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo) {
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId) {
-	if (tabId == lastTabId)
-		killCurrentNotif();
+	for (var notifID in notifs) {
+		if (notifs[notifID].tab_id == tabId) {
+			notifs[notifID].notif_obj.cancel();
+			delete notifs[notifID];
+		}
+	}
 });
 </script>
