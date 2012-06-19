@@ -13,16 +13,31 @@ var lastNotificationTimeout = null;
 
 var origURL = "";
 
-function redir() {	
+var notifs = {};
+var lastNotifID = 0;
+
+function getNotifData() {
+	return {
+		"notif_id": lastNotifID++,
+		"url": origURL,
+		"tab_id": lastTabId
+	};
+}
+
+function redir(data) {	
 	
-	chrome.tabs.get(lastTabId,function(tab) {
-		tab.url = origURL;
+	console.log(data);
+	chrome.tabs.get(data.tab_id,function(tab) {
+		tab.url = data.url;
 		
-		chrome.tabs.update(lastTabId, {
-			url:origURL
+		chrome.tabs.update(data.tab_id, {
+			url:data.url
 		});
 		
-		killCurrentNotif();
+		notifs[data.notif_id].cancel();
+		delete notifs[data.notif_id];
+		lastNotificationTimeout = null;
+		lastNotification = null;
 	});
 }
 
@@ -62,6 +77,8 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo) {
 			
 			lastNotification = webkitNotifications.createHTMLNotification('notif.html');
 			lastNotification.show();
+			
+			notifs[lastNotifID] = lastNotification;
 			
 			tabsBothered.push(tabId);
 		}

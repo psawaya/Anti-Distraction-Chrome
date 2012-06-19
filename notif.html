@@ -6,6 +6,8 @@
 		
 		var countdownElem = null;
 		
+		var notifData = chrome.extension.getBackgroundPage().getNotifData();
+		
 		function updateCountdown() {
 			countdownElem.innerHTML = count.toString();
 		}
@@ -17,7 +19,7 @@
 			
 			setInterval(function() {
 				if (count <= 0)
-					chrome.extension.getBackgroundPage().redir();
+					chrome.extension.getBackgroundPage().redir(notifData);
 				else
 					count--;
 				
