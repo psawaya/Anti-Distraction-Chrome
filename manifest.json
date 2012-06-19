@@ -6,5 +6,8 @@
         "tabs",
         "notifications"
     ],
-    "background_page": "background.html"
+    "background_page": "background.html",
+	"browser_action": {
+		"default_popup": "popup.html"
+	}
 }

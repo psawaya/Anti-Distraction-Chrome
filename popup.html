@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+		body {
+			width:300px;
+		}
+		a {
+			font-size:80%;
+		}
+		#minutesRemainingDisplay {
+			display:none;
+		}
+		</style>
+		
+		<script>		
+		function updateCount() {
+			var minutesRemaining = chrome.extension.getBackgroundPage().notifsDisabledMinutesRemaining;
+			document.getElementById('minutesRemaining').innerHTML = minutesRemaining.toString();
+			showOrHideCount(minutesRemaining > 0)
+		}
+		
+		function showOrHideCount(show) {
+			document.getElementById('disableLink').style['display'] = show ? 'none' : 'block';
+			document.getElementById('minutesRemainingDisplay').style['display'] = show ? 'block' : 'none';
+		}
+		
+		function disable() {
+			chrome.extension.getBackgroundPage().startNotifsDisabledTimer()
+			updateCount();
+		}
+		</script>
+	</head>
+	<body onload="updateCount()">
+		<div id="minutesRemainingDisplay">
+			<h2><span id="minutesRemaining"></span> minutes of free browsing remaining.</h2>
+		</div>
+		<a href="#" onclick="disable()" id="disableLink">Disable notifs for 10 minutes</a>
+	</body>
+</html>
