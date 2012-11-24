@@ -1,5 +1,5 @@
 
-var count = 15;
+var count = 10;
 
 var countdownElem = null;
 		
