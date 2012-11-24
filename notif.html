@@ -1,45 +1,12 @@
 <!doctype html>
 <html>
-	<head>
-		<script>
-		var count = 15;
-		
-		var countdownElem = null;
-		
-		var notifData = chrome.extension.getBackgroundPage().getNotifData();
-		
-		function updateCountdown() {
-			countdownElem.innerHTML = count.toString();
-		}
-		
-		function panic() {
-			if (count <= 0)
-				chrome.extension.getBackgroundPage().redir(notifData);
-			else
-				count--;
-				
-			updateCountdown();			
-		}
-		
-		function init() {
-			countdownElem = document.getElementById('countdown');
-				
-			updateCountdown();
-			
-			setInterval(panic,1000);
-		}
-		</script>
-	</head>
-	<body onload="init();">
+    <script src="notif.js"></script>
+	<body>
 		<div>
 			Wait for it...
 		</div>
-		
 		<h1 id="countdown"></h1>
-		<a href="#" onclick="panic();">!!!</a>
-		<!-- <div>
-			<a href="#" onclick="chrome.extension.getBackgroundPage().redir();">Okay!</a>
-		</div> -->
+		<a href="#" id="panic-link">!!!</a>
 	</body>
 	
 </html>
