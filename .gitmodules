@@ -1,0 +1,3 @@
+[submodule "simulated_infobars"]
+	path = simulated_infobars
+	url = git@github.com:lloyd/simulated_infobars.git
